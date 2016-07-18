@@ -1,0 +1,12 @@
+{
+	"development":{
+		"dbName": "best_structure",
+		"connectionString": "mongodb://localhost:27017/"	
+	},
+
+	  
+	"production":{
+		"dbName": "best_structure",
+		"connectionString": "mongodb://localhost:27017/"
+	}
+}
