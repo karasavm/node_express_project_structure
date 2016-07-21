@@ -1,9 +1,12 @@
 var mongoose=require('mongoose');
 var Schema=mongoose.Schema;
+var User = require('./user');
 
-var commentSchema = new Schema({
-  title: String,
-  text: String
+var schema = new Schema({
+  text: String,
+  created_at: {type: Date, default: Date.now},
+  by: {type: Schema.Types.ObjectId, ref: 'User', required: true}
+  
 });
 
-module.exports = mongoose.model('Comment', commentSchema);
+module.exports = mongoose.model('Comment', schema);

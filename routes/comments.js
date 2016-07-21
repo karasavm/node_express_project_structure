@@ -1,22 +1,21 @@
 var express = require('express');
 var Comment = require('../models/comment');
+var router = express.Router({mergeParams:true});
 
-var router = express.Router();
 
-
-router.route('')
+router.route('/')
   .get(function(req, res){
-    Comment.find(function(err, data){
+    Comment.find({by: req.params.userId}, function(err, data){
       
       if (err) {
         return res.send(err);
       }
       res.json(data);
+      console.log(Comment);
     });
   })
   .post(function(req, res){
     comment = new Comment(req.body);
-
     comment.save(function(err){
       if (err)
         return res.send(err);
@@ -24,31 +23,31 @@ router.route('')
     });
   });
 
-router.route('/:id')
-  .get(function(req, res){
-    Comment.findOne({_id: req.params.id},function(err, data){
-      if (err) {
-        return res.send(err);
-      }
-      res.json(data);
-    });
-  })
-  .put(function(req, res){
-    Comment.findOneAndUpdate({_id: req.params.id}, req.body, function(err, data){
-      if (err)
-        return res.send(err);
-      res.json({message: "ok"});
-    });
+// router.route('/:id')
+//   .get(function(req, res){
+//     Comment.findOne({_id: req.params.id},function(err, data){
+//       if (err) {
+//         return res.send(err);
+//       }
+//       res.json(data);
+//     });
+//   })
+//   .put(function(req, res){
+//     Comment.findOneAndUpdate({_id: req.params.id}, req.body, function(err, data){
+//       if (err)
+//         return res.send(err);
+//       res.json({message: "ok"});
+//     });
 
-  })
-  .delete(function(req, res){
-    Comment.remove({_id: req.params.id},function(err, data){
-      if (err) {
-        return res.send(err);
-      }
-      res.json({message: "ok"});
-    });
-  });
+//   })
+//   .delete(function(req, res){
+//     Comment.remove({_id: req.params.id},function(err, data){
+//       if (err) {
+//         return res.send(err);
+//       }
+//       res.json({message: "ok"});
+//     });
+//   });
 
 module.exports = router;
 

@@ -1,6 +1,6 @@
 {
 	"development":{
-		"dbName": "best_structure",
+		"dbName": "tests",
 		"connectionString": "mongodb://localhost:27017/"	
 	},
 

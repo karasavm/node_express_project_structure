@@ -18,37 +18,64 @@ var dbName = config.dbName;
 var connectionString = config.connectionString + dbName;
 
 mongoose.connect(connectionString);
-
+// mongoose.plugin('./models/readonly');
 
 //BODY-PARSER
 app.use(bodyParser.json());
 // app.use(bodyParser.urlencoded());
 
-
-
-// LOGGING
+// LOGGING Api CALLS
 app.use(morgan('dev'));
 // // log to file
 // var accessLogStream = fs.createWriteStream(__dirname + '/access.log', {flags: 'a'});
 // app.user(morgan('dev'), {stream: accessLogStream});
 
 
-
-
 // REGISTER ROUTES
 app.use('/api', require('./routes'));
 
 
-
+//ERROR HANDLERS
+// development error handler
+// will print stacktrace
+if (app.get('env') === 'development') {
+  app.use(function(err, req, res, next) {
+    res.status(err.status || 500);
+    res.json({
+      message: "error",
+      error: err.message,
+      trace: err.stack,
+      err: err
+    });
+    next(err);
+  });
+};
+// production error handler
+// no stacktraces leaked to user
+app.use(function(err, req, res, next) {
+  res.status(err.status || 500);
+  res.json({
+      message: "error",
+      error: err.message
+    });
+  next(err);
+});
 
 module.exports = app;
 
+// CONCEPTS COVERED WITH SUCCESS
+// - config file
+// - devel and production mode
+// - basics on error handiling
+// - log rest call using morgan
+// - using mongoose plugins by readonly fileds functionality
+
+// CONCEPTS TO COVER
 // - authentication
 // - token based
 // - session
 // - mysql
-// - config file
-// - devel and production mode
 // - logging on node apps
+// - resource doesnot exist
 
-// - error handiling
+// - app.user(logger) on generatoer
