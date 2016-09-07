@@ -3,6 +3,25 @@ var User = require('../models/user');
 
 var router = express.Router();
 
+router.route('/test')
+  .get(function(req, res, next){
+    console.log('first function')
+    // next('route')
+    // throw new Error("ERROR MEEEEN")
+    // throw "ERROR MAN"
+    console.log("before sfalma")
+    err = new Error("SFALMA")
+    throw err
+    // next(err)
+    console.log("after sfalms")
+    // res.send('DONEEE');
+
+    // next("EEERRRROOOORRR")
+    console.log("AFTER ERROR")
+    
+    
+    
+  }); 
 
 router.route('/')
   .get(function(req, res, next){

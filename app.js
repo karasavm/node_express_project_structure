@@ -41,11 +41,16 @@ app.use('/api', require('./routes'));
 if (app.get('env') === 'development') {
   app.use(function(err, req, res, next) {
     res.status(err.status || 500);
+    if (res.headersSent) {
+      console.log("Headers Sent")
+      return next(err);
+    }
+    
     res.json({
       message: "error",
       error: err.message,
       trace: err.stack,
-      err: err
+      error_object: err
     });
     next(err);
   });
@@ -54,6 +59,11 @@ if (app.get('env') === 'development') {
 // no stacktraces leaked to user
 app.use(function(err, req, res, next) {
   res.status(err.status || 500);
+  console.log("production error handler")
+  if (res.headersSent) {
+    console.log("Headers Sent")
+    return next(err);
+  }
   res.json({
       message: "error",
       error: err.message
@@ -62,6 +72,12 @@ app.use(function(err, req, res, next) {
 });
 
 module.exports = app;
+// TODDO
+// - error handling from boorkmakr - http errors
+// - change res.send(err) to next(err)
+// - Not found resource a general idea. not "null"
+
+
 
 // CONCEPTS COVERED WITH SUCCESS
 // - config file
@@ -71,11 +87,19 @@ module.exports = app;
 // - using mongoose plugins by readonly fileds functionality
 
 // CONCEPTS TO COVER
-// - authentication
-// - token based
+// - authentication  SEE authentication projext
+// - token based    SEE authentication project
 // - session
 // - mysql
 // - logging on node apps
 // - resource doesnot exist
 
 // - app.user(logger) on generatoer
+
+
+
+// SEE MORE
+// - configs to config folder and initiallize routes  SEE project_structure2
+// - require(MODEL) and plain require technique general SEE flapper-news
+// - authorization on resources SEE https://github.com/madhums/node-express-mongoose-demo/blob/master/config/middlewares/authorization.js
+// - see configs on https://github.com/madhums/node-express-mongoose-demo/tree/master/config
